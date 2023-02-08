@@ -1,20 +1,58 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
+import  { NavigationContainer} from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Profile from './Profile';
+import { useState } from 'react';
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+
+const Home = (props) => {
+  const nav = props.navigation;
+  const [name, setName] = useState("Kiều Thanh Tùng");
+  const [age, setAge] = useState("21");
+  const [location, setLocation] = useState("Hà Nội");
+  const [phone, setPhone] = useState("0987654321");
+  const [email, setEmail] = useState("tungktph27675@fpt.edu.vn");
+
+  const update = (name, age, address, phone, email) => {
+    setName(name);
+    setAge(age);
+    setLocation(location);
+    setPhone(phone);
+    setEmail(email);
+  };
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View>
+      <Button
+        title='Thông tin cá nhân'
+        onPress={() => nav.navigate(
+          'Profile',{
+            name: name,
+            age: age,
+            location: location,
+            phone: phone,
+            email: email,
+            update: update,
+          }
+        )}
+      />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const App = () => {
+  return(
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name='Home' component={Home}
+
+        />
+        <Stack.Screen name='Profile' component={Profile}
+
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+};
+export default App;
